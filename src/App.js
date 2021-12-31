@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from "react-redux";
+import "./App.css";
+import Signin from "./Services/Authentication/components/Signin";
+import axios from "axios";
+import Navbar from "./Services/DashBoard/Components/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+function App(props) {
+  const { auth } = props;
+  // console.log("sgdsgsg",props.auth.uid)
+  console.log("axios",axios.defaults.headers.common)
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  return auth.uid ? (
+    <BrowserRouter>
+      <Navbar />
+    </BrowserRouter>
+  ) : (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Signin/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
+
+export default connect(mapStateToProps)(App);
