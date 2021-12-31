@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const endpoint = require("../../endpoint");
+const {endPoint} = require("../../endpoint");
 const User = require("./model")
-router.put("/updateuser", endpoint, (req, res) => {
+router.put("/updateuser", endPoint, (req, res) => {
   //maintain last update details by that we can monitor the user login status
   const inputsData = req.body
   const obj = new User(req.user);

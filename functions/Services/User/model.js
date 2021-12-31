@@ -7,6 +7,9 @@ class User {
   }
 
   async updateUserProfile(inputData, userId) {
+    const updateData={
+      
+    };
     console.log(this.actionPerformer);
     let userDetails= reduceUserDetails(inputData);
     return AuthUtils._userExists(userId)

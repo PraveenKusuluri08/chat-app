@@ -4,7 +4,7 @@ const {
   validationCreateUser,
   checkUpdateFieldsIsEmpty,
 } = require("../../helpers/utils");
-const endpoint = require("../../endpoint");
+const {endPoint} = require("../../endpoint");
 const uploadImage = require("../../helpers/imageUpload");
 
 //signUp
@@ -46,7 +46,7 @@ router.post("/createuser", (req, res) => {
 
 //upload image
 
-router.post("/user/uploadimage", endpoint, uploadImage);
+router.post("/user/uploadimage", endPoint, uploadImage);
 
 //add another route which is used to delete the account
 // if user requested to delete his accout it needs run trigger for 
