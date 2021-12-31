@@ -19,7 +19,7 @@ class AuthUtils {
     return db
       .collection("USERS")
       .where("uid", "==", uid)
-      .where("isExists", "==", true).limit(1).get().then((sanp)=>{
+      .where("isExists", "==", true).limit(1).get().then((snap)=>{
         if(snap.size<1) throw new Error("User not exists");
         else{
           return snap.docs[0].data()
