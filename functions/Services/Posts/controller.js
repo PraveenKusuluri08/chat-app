@@ -29,9 +29,8 @@ router.get("/getsingleposts", endPoint, (req, res) => {
 
 router.post("/createpost", getIdToken, (req, res) => {
   const obj = new Posts(req.user);
-  const err = checkCreatePost()
-  if(err.body.length){
-    return res.status(404).json({message:err})
+  if(req.body.body.trim()===""){
+    return res.status(404).json({message:"Content body is missing! Please fill the body"})
   }
   obj
     .createPost(req.body)
@@ -39,6 +38,7 @@ router.post("/createpost", getIdToken, (req, res) => {
       return res.status(202).json({ message: "Post created successfully" });
     })
     .catch((err) => {
+      console.log(err)
       return res.status(404).json({ message: "failed to create post" });
     });
 });

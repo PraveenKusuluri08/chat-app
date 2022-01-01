@@ -29,11 +29,12 @@ class Posts {
   }
 
   async createPost(inputs) {
+    console.log(this.actionPerformer)
     const postsData = {
       body: inputs.body,
       createdAt: new Date().toISOString(),
       email: this.actionPerformer.email,
-      userImage: req.user.imageUrl,
+      userImage: this.actionPerformer.imageUrl,
       likesCount: 0,
       commentsCount: 0,
     };
