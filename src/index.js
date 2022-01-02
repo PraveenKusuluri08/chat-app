@@ -10,7 +10,7 @@ import firebase from "./config/fbconfig";
 import { API } from "./config/API";
 import axios from "axios";
 import { Provider, useSelector } from "react-redux";
-
+import {Loader} from "./Pages/Loader"
 const profileSpecificProps = {
   userProfile: "USERS",
   useFirestoreForProfile: true,
@@ -42,7 +42,7 @@ function AuthIsLoaded({ children }) {
         });
     }
   });
-  if (!isLoaded(auth)) return "Loading.........";
+  if (!isLoaded(auth)) return <Loader/>
   return children;
 }
 

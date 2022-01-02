@@ -15,7 +15,7 @@ class Posts {
         data.forEach((doc) => {
           postsData.push({
             postId: doc.id,
-            body: doc.data().body,
+            post: doc.data().body,
             createdAt: doc.data().createdAt,
             likesCount: doc.data().likesCount,
             userImage: doc.data().userImage,
@@ -31,7 +31,7 @@ class Posts {
   async createPost(inputs) {
     console.log(this.actionPerformer)
     const postsData = {
-      body: inputs.body,
+      post: inputs.body,
       createdAt: new Date().toISOString(),
       email: this.actionPerformer.email,
       userImage: this.actionPerformer.imageUrl,

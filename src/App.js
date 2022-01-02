@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import "./App.css";
-import Signin from "./Services/Authentication/components/Signin";
+import Signin from "./Pages/SignIn";
 import axios from "axios";
 import Navbar from "./Services/DashBoard/Components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
