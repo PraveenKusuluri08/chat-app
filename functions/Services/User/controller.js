@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { endPoint } = require("../../endpoint");
+const { endPoint, getIdToken } = require("../../endpoint");
 const User = require("./model");
 router.put("/updateuser", endPoint, (req, res) => {
   //maintain last update details by that we can monitor the user login status
@@ -28,6 +28,22 @@ router.get("/getauthdata", endPoint, (req, res) => {
     .catch((err) => {
       console.log(err);
       return res.status(500).json({ message: err });
+    });
+});
+
+router.delete("/deleteprofilepic", getIdToken, (req, res) => {
+  const obj = new User(req.user);
+ const {imageUrl}=req.query
+  obj
+    .deleteProfilePic(imageUrl)
+    .then(() => {
+      return res
+        .status(200)
+        .json({ message: "Profile pic deleted successfully!! Default image is loaded" });
+    })
+    .catch((err) => {
+      console.log(err)
+      return res.status(500).json({ message: "Failed to delete profile pic" });
     });
 });
 module.exports = router;
