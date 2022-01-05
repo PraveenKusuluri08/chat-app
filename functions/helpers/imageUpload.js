@@ -25,7 +25,7 @@ const uploadImage = (req, res) => {
 
     //for getting the randon file name for to store in the db
     imageFileName = `${Math.round(
-      Math.random() * 10000000000
+      Math.random() * 1000000
     )}.${imageExtension}`;
 
     const filePath = path.join(os.tmpdir(), imageFileName);

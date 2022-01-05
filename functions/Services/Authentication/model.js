@@ -21,7 +21,7 @@ class Model {
         Object.entries(inputs).forEach(([key, value]) => {
           if (key !== "password") inputData[key] = value;
         });
-        const startImage="cover.jpg"
+        const startImage = "cover.jpg";
         return db
           .collection("USERS")
           .doc(userInfo.uid)
@@ -31,15 +31,13 @@ class Model {
             uid: userInfo.uid,
             isExists: true,
             role: inputData.role,
-            imageUrl:`https://firebasestorage.googleapis.com/v0/b/fir-realworld-d5b34.appspot.com/o/${startImage}?alt=media`
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/fir-realworld-d5b34.appspot.com/o/${startImage}?alt=media`,
           });
       })
       .catch((err) => {
         throw err;
       });
   }
-
-  
 }
 
 module.exports = Model;

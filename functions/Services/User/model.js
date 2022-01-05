@@ -1,10 +1,12 @@
 const { data } = require("autoprefixer");
 const { reduceUserDetails } = require("../../helpers/utils");
-const { admin, db } = require("../../utils/admin");
+const { db, storage, admin } = require("../../utils/admin");
 const AuthUtils = require("../Authentication/utils");
 class User {
   constructor(user) {
     this.actionPerformer = user;
+
+    this.fieldValue = admin.firestore.FieldValue;
   }
 
   async updateUserProfile(inputData, userId) {
@@ -59,6 +61,30 @@ class User {
           user["posts"].push(post.data());
         });
         return user;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  async deleteProfilePic(filename) {
+    let dbRef = db.collection("USERS").doc(this.actionPerformer.uid);
+    return dbRef
+      .update({
+        imageUrl: this.fieldValue.delete(),
+      })
+      .then((ref) => {
+        console.log("ref", ref);
+        return storage.bucket().file(filename).delete();
+      })
+      .then(() => {
+        const startImage = "cover.jpg";
+        return db.doc(`USERS/${this.actionPerformer.uid}`).set(
+          {
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/fir-realworld-d5b34.appspot.com/o/${startImage}?alt=media`,
+          },
+          { merge: true }
+        );
       })
       .catch((err) => {
         throw err;
