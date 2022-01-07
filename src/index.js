@@ -5,9 +5,9 @@ import App from "./App";
 import store from "./store/store/index";
 import { ReactReduxFirebaseProvider, isLoaded } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
-import firebase from "./fbConfig/fbconfig";
+import firebase from "./config/fbconfig";
 // import { ErrorBoundary } from "react-error-boundary";
-import { API } from "./fbConfig/API";
+import { API } from "./config/API";
 import axios from "axios";
 import { Provider, useSelector } from "react-redux";
 import {Loader} from "./Pages/Loader"
