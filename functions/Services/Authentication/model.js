@@ -1,5 +1,6 @@
 const { admin, db } = require("../../utils/admin");
 const AuthUtils = require("./utils");
+const { hashPassword } = require("../../helpers/utils");
 class Model {
   constructor(user) {
     this.actionPerformer = user;
@@ -17,10 +18,11 @@ class Model {
       })
       .then(() => {
         const inputData = {};
-
+       
         Object.entries(inputs).forEach(([key, value]) => {
-          if (key !== "password") inputData[key] = value;
+          
         });
+        
         const startImage = "cover.jpg";
         return db
           .collection("USERS")

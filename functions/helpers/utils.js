@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 class HelperUtils {
   isEmail = (email) => {
     const exp =
@@ -74,9 +76,17 @@ const checkCreatePost = (inputs) => {
   let empties;
   const obj = new HelperUtils();
   if (obj.isEmpty(inputs.body.trim()))
-  empties="Please fill the body for the post"
+    empties = "Please fill the body for the post";
 
-  return empties
+  return empties;
+};
+
+async function hashPassword(inputData) {
+  console.log("hashPassword", inputData);
+  bcrypt.hash(inputData["password"], 100).then((hash)=>{
+    console.log(hash)
+});
+  
 }
 
 module.exports = {
@@ -84,4 +94,5 @@ module.exports = {
   checkUpdateFieldsIsEmpty,
   reduceUserDetails,
   checkCreatePost,
+  hashPassword,
 };

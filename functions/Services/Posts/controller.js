@@ -29,8 +29,10 @@ router.get("/getsingleposts", endPoint, (req, res) => {
 
 router.post("/createpost", getIdToken, (req, res) => {
   const obj = new Posts(req.user);
-  if(req.body.body.trim()===""){
-    return res.status(404).json({message:"Content body is missing! Please fill the body"})
+  if (req.body.body.trim() === "") {
+    return res
+      .status(404)
+      .json({ message: "Content body is missing! Please fill the body" });
   }
   obj
     .createPost(req.body)
@@ -38,9 +40,21 @@ router.post("/createpost", getIdToken, (req, res) => {
       return res.status(202).json({ message: "Post created successfully" });
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       return res.status(404).json({ message: "failed to create post" });
     });
 });
 
+router.get("/getpostwithcomment", endPoint, (req, res) => {
+  const { postId } = req.query;
+  const obj = new Posts(req.user);
+  obj
+    .getPostWithComments(postId)
+    .then((resData) => {
+      return res.status(200).json(resData);
+    })
+    .catch((err) => {
+      return res.status(404).json({ error: err });
+    });
+});
 module.exports = router;
