@@ -40,6 +40,9 @@ const getIdToken = (req, res, next) => {
       .auth()
       .verifyIdToken(token)
       .then((decoded) => {
+        console.log(
+          `Requested ${req.protocol}${req.originalUrl}${req.url} ->${decoded.email}`
+        );
         req.user = decoded;
         return db
           .collection("USERS")
@@ -65,4 +68,4 @@ const getIdToken = (req, res, next) => {
     return res.status(403).json({ error: `UnAuthorised` });
   }
 };
-module.exports = {endPoint,getIdToken};
+module.exports = { endPoint, getIdToken };

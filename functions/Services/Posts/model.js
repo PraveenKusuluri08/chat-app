@@ -30,25 +30,38 @@ class Posts {
 
   async createPost(inputs) {
     console.log(this.actionPerformer);
+    const startImage = "cover.jpg";
+    let postCreatorImage = "";
+    const imageLoader = `https://firebasestorage.googleapis.com/v0/b/fir-realworld-d5b34.appspot.com/o/${startImage}?alt=media`;
+    if (this.actionPerformer.imageUrl === undefined) {
+      postCreatorImage = imageLoader;
+    } else {
+      postCreatorImage = this.actionPerformer.imageUrl;
+    }
     const postsData = {
-      post: inputs.body,
+      post: inputs.post,
       createdAt: new Date().toISOString(),
       email: this.actionPerformer.email,
-      userImage: this.actionPerformer.imageUrl,
+      userImage: postCreatorImage,
       likesCount: 0,
       commentsCount: 0,
+      isExists: true,
     };
-    return db
-      .collection("POSTS")
-      .add(postsData)
+    let postDb = db.collection("POSTS").doc();
+    return postDb
+      .set({
+        ...postsData,
+        postId: postDb.id,
+      })
       .catch((err) => {
         throw err;
       });
   }
-  async getPostWithComments(postId) {
+  async _getPostWithComments(postId) {
     let postData = {};
-    let commentDb = db.collection("COMMENT");
-    return db.collection("POSTS")
+    let commentDb = db.collection("COMMENT").orderBy("commentedAt", "desc");
+    return db
+      .collection("POSTS")
       .doc(postId)
       .get()
       .then((data) => {
@@ -59,11 +72,45 @@ class Posts {
         return comments;
       })
       .then((data) => {
-        postData["comments"]=[]
+        postData["comments"] = [];
         data.forEach((doc) => {
-          postData["comments"].push(doc.data())
+          postData["comments"].push(doc.data());
         });
         return postData;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+  async _do_Comment(inputs, postId) {
+    if (inputs.comment.trim() === "") {
+      throw new Error("Do you want to comment");
+    }
+    const startImage = "cover.jpg";
+    let postCreatorImage = "";
+    const imageLoader = `https://firebasestorage.googleapis.com/v0/b/fir-realworld-d5b34.appspot.com/o/${startImage}?alt=media`;
+    if (this.actionPerformer.imageUrl === undefined) {
+      postCreatorImage = imageLoader;
+    } else {
+      postCreatorImage = this.actionPerformer.imageUrl;
+    }
+    //create comment likes form the front end
+    const commentData = {
+      email: this.actionPerformer.email,
+      postId: postId,
+      comment: inputs.comment,
+      commentedAt: new Date().toISOString(),
+      CommenterImageUrl: postCreatorImage,
+    };
+   return PostsUtils._is_posts_exists(postId)
+      .then((res) => {
+        console.log(res);
+        return db
+          .collection("COMMENT")
+          .add(commentData)
+          .catch((err) => {
+            throw err;
+          });
       })
       .catch((err) => {
         throw err;

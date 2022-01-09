@@ -29,7 +29,8 @@ router.get("/getsingleposts", endPoint, (req, res) => {
 
 router.post("/createpost", getIdToken, (req, res) => {
   const obj = new Posts(req.user);
-  if (req.body.body.trim() === "") {
+  console.log(req.user);
+  if (req.body.post.trim() === "") {
     return res
       .status(404)
       .json({ message: "Content body is missing! Please fill the body" });
@@ -49,12 +50,34 @@ router.get("/getpostwithcomment", endPoint, (req, res) => {
   const { postId } = req.query;
   const obj = new Posts(req.user);
   obj
-    .getPostWithComments(postId)
+    ._getPostWithComments(postId)
     .then((resData) => {
       return res.status(200).json(resData);
     })
     .catch((err) => {
+      console.log(err);
+      return res.status(404).json({
+        error: "Requested post is not exist! Please try again different post",
+      });
+    });
+});
+
+router.post("/:postId/commentOnPost", getIdToken, (req, res) => {
+  const inputs = req.body;
+  const { postId } = req.params;
+  const obj = new Posts(req.user);
+  obj
+    ._do_Comment(inputs, postId)
+    .then((responce) => {
+      console.log(responce)
+      return res.status(202).json({ message: "Commented successfully" });
+    })
+    .catch((err) => {
+      console.log(err);
       return res.status(404).json({ error: err });
     });
 });
+
+
+
 module.exports = router;
