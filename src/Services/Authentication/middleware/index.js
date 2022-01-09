@@ -6,9 +6,9 @@ import {
   signoutSuccess,
   signoutFailure,
 } from "../actions/actionCreators";
-import firebase from "../../../config/fbconfig";
+import firebase from "../../../fbConfig/fbconfig";
 import axios from "axios";
-import { API } from "../../../config/API";
+import { API } from "../../../fbConfig/API";
 
 export const onLogin = (creds) => {
   return (dispatch, getState, { getFirebase }) => {
